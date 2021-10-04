@@ -1,0 +1,135 @@
+
+<!--
+///////////////////////////////////////////////////////////////////////////////
+// 「申請内容」を入力して設定
+///////////////////////////////////////////////////////////////////////////////
+-->
+
+{% if stateMsg == 1 %}
+
+    <br><hr>
+
+        <p class="h19title">変更する「修理依頼No」の、「納期」と「理由」と「コメント」を入力し、[申請ボタン]をクリックして下さい。</p>
+
+    <table>
+
+        <form action="/changerApp" method="post">
+
+            <thead>
+
+                <tr>
+
+                    <th>依頼No</th>
+                    <th>修理担当</th>
+                    <th>型　式</th>
+
+                    <th>現状納期</th>
+                    <th>変更納期</th>
+
+                    <th>変更回数</th>
+                    <th>営業承認</th>
+                    <th>変更理由</th>
+
+                    <th>
+                        <label style="color: rgb(255, 0, 0);">申請時のコメント</label>
+                    </th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                <tr>
+
+                    <td><label for="addCgIraiNo">
+                        <input type="search" id="addCgIraiNo" name="addCgIraiNo" size=5 required placeholder="修理No">
+                    </label></td>
+
+                    <td><label for="addCgTantouName">
+                        <input type="search" id="addCgTantouName" name="addCgTantouName" size=12 readonly>
+                    </label></td>
+
+                    <td><label for="addCgKatasikiName">
+                        <input type="search" id="addCgKatasikiName" name="addCgKatasikiName" size=20 readonly>
+                    </label></td>
+
+                    <td><label for="addCgNoukimaeDate">
+                        <input type="date" id="addCgNoukimaeDate" name="addCgNoukimaeDate" readonly>
+                    </label></td>
+
+                    <td><label for="addCgNoukiatoDate">
+                        <input type="date" id="addCgNoukiatoDate" name="addCgNoukiatoDate" required placeholder="2021/03/31">
+                    </label></td>
+
+                    <td><label for="addCgHenkoCount">
+                        <select name="addCgHenkoCount" id="addCgHenkoCount" required>
+                            <option value="1">選択</option>
+                            <option value="1">1回目</option>
+                            <option value="2">2回目</option>
+                            <option value="3">3回目</option>
+                            <option value="4">4回目</option>
+                            <option value="5">5回目</option>
+                        </select>
+                    </label></td>
+
+                    <td><label for="addCgRiyuu1No">
+                        <select name="addCgRiyuu1No" id="addCgRiyuu1No" required>
+                            <option value="1">選択</option>
+                            <option value="1">1 - 営業担当者</option>
+                            <option value="2">2 - 所長・課長</option>
+                            <option value="3">3 - X p o i n t</option>
+                            <option value="4">4 - そ　の　他</option>
+                            <option value="5">5 - 無　　し</option>
+                        </select>
+                    </label></td>
+
+                    <td><label for="addCgRiyuu2No">
+                        <select name="addCgRiyuu2No" id="addCgRiyuu2No" required>
+                            <option value="A">選択</option>
+                            <option value="A">A - 依頼が短納期</option>
+                            <option value="B">B - 営業側の事情</option>
+                            <option value="C">C - 発送方法変更</option>
+                            <option value="K">K - 外注　依頼品</option>
+                            <option value="D">D - 多忙にて困難</option>
+                            <option value="E">E - 外注先の遅延</option>
+                            <option value="F">F - 部品入手遅延</option>
+                            <option value="G">G - 組合日程調整</option>
+                            <option value="H">H - そ　の　他</option>
+                            <option value="I">I - 技術的な要因</option>
+                            <option value="J">J - 設備での要因</option>
+                        </select>
+                    </label></td>
+
+                    <td><label for="addCgOkureComent">
+                        <input type="search" id="addCgOkureComent" name="addCgOkureComent" required placeholder="コメントを入力してください">
+                    </label></td>
+
+                    <td style="text-align: center; border-top-style: hidden; border-bottom-style: hidden; border-right-style: hidden;">
+                    <button type="submit" class="button1">申　　請</button></td>
+<!--
+                    /////////////////////////////////////////////////////////////////////////////////////
+                    <button type="submit" onclick="batFileExec(1)" class="button1">申　　請</button></td>
+                    /////////////////////////////////////////////////////////////////////////////////////
+-->
+                </tr>
+
+            </tbody>
+
+        </form>
+
+    </table>
+
+<!--
+        ////////////////////////////////////////////////////////////////////
+        // 「引合残ファイル」から、修理依頼Noで検索して、担当者名、型式、回答納期を表示
+        ////////////////////////////////////////////////////////////////////
+-->
+
+    <td>
+        <button class="button1" onclick="filegetcsv()">修理No」を入力後、ここをクリック。</button>
+    </td>
+
+    <br>
+
+{% endif %}

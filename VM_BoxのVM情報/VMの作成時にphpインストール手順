@@ -1,0 +1,46 @@
+
+＜ＶＭの　(1)インストール、(2)作成時にまずやる事＞
+dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+
+Is this ok [y/N]: y
+Complete!
+
+dnf install https://rpms.remirepo.net/enterprise/remi-release-8.rpm 
+
+Is this ok [y/N]: y
+Complete!
+
+
+
+
+＜インストールする場合に、残っているか確認＞
+yum list installed | grep php
+
+＜残ってる場合は削除＞
+yum remove php php-*
+
+
+
+
+＜既に、インストールされている場合を考え、削除＞
+dnf module reset php:remi-7.4
+
+Is this ok [y/N]: y
+Complete!
+
+
+
+＜インストールする＞
+dnf module install php:remi-7.4
+
+
+Is this ok [y/N]: y
+Downloading Packages:
+Is this ok [y/N]: y                                                               
+Complete!
+
+
+
+＜さらに、インストールする＞
+yum install php-json
+

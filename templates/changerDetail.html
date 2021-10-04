@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>納期変更の詳細情報 | SlimWandaRingMVC</title>
+	</head>
+
+	<body>
+		<header>
+			<h1>納期変更の詳細情報</h1>
+		</header>
+
+		<section>
+
+			{% if msg %}
+			<p>{{msg}}</p>
+			{% else %}
+
+			<table>
+
+				<thead>
+
+					<tr>
+						<th>ID</th>
+						<th>SG</th>
+
+						<th>依頼No</th>
+						<th>修理担当</th>
+						<th>型　式</th>
+
+						<th>現状納期</th>
+						<th>変更納期</th>
+
+						<th>回数</th>
+						<th>承認</th>
+						<th>理由</th>
+
+						<th>その他、備考</th>
+
+						<th>申請日</th>
+						<th>承認日</th>
+						<th>処理日</th>
+						<th>確認日</th>
+					</tr>
+
+				</thead>
+
+				<tbody>
+
+					{% for id, changer in changerList %}
+
+					<tr>
+						<td style="text-align: center;">{{id}}</td>
+						<td style="text-align: center;">{{changer.cgStat}}</td>
+
+						<td>{{changer.cgIraiNo}}</td>
+						<td>{{changer.cgTantouName}}</td>
+						<td>{{changer.cgKatasikiName}}</td>
+
+						<td>{{changer.cgNoukimaeDate}}</td>
+						<td>{{changer.cgNoukiatoDate}}</td>
+
+						<td style="text-align: center;">{{changer.cgHenkoCount}}</td>
+						<td style="text-align: center;">{{changer.cgRiyuu1No}}</td>
+						<td style="text-align: center;">{{changer.cgRiyuu2No}}</td>
+
+						<td>{{changer.cgOkureComent}}</td>
+
+						<td>{{changer.cgShinseiStart}}</td>
+						<td>{{changer.cgSyouninDate}}</td>
+						<td>{{changer.cgSyoriDate}}</td>
+						<td>{{changer.cgCheckDate}}</td>
+
+						<td><a href="/goChangerApp/1/1/1">申請表示</a></td>
+					</tr>
+
+					{% else %}
+
+					<tr>
+						<td colspan="3">表示する納期変更はありません。</td>
+					</tr>
+
+					{% endfor %}
+
+				</tbody>
+
+			</table>
+
+			{% endif %}
+
+		</section>
+
+		<br>申請リストの確認は<a href="/showChangerList">こちら</a>から。<br>
+
+	</body>
+
+</html>

@@ -1,0 +1,75 @@
+
+<!--
+///////////////////////////////////////////////////////////////////////////////
+// フッター部の「メニューボタン」表示
+///////////////////////////////////////////////////////////////////////////////
+-->
+
+    <div style="float: left";>
+
+        <table style="margin-left: 2cm">
+
+            <tr>
+<!--
+///////////////////////////////////////////////////////////////////////////////
+        {% if (stateMsg == 1) or (protcMsg == 2) %}
+
+            {% set	disabled2 = '' %}
+
+        {% else %}
+
+            {% set	disabled2 = 'disabled' %}
+
+        {% endif %}
+
+                <td style="border-style: hidden;">
+
+                    <form action="/goChangerApp/{{protcMsg}}/1/1" method="post">
+
+                        <button {{disabled2}} type="submit" class="button6">申 請</button>
+                    </form>
+                </td>
+///////////////////////////////////////////////////////////////////////////////
+-->
+
+                <td style="border-style: hidden;">
+                    <form action="/goChangerApp/{{protcMsg}}/{{stateMsg}}/1" method="post">
+                        <button type="submit" class="button6">画面クリア</button>
+                    </form>
+                </td>
+
+            </tr>
+
+        </table>
+
+    </div>
+
+<!--
+///////////////////////////////////////////////////////////////////////////////
+// 「承認」と「理由」の内訳を<ヘルプ>として表示
+///////////////////////////////////////////////////////////////////////////////
+-->
+
+{% if stateMsg != 1 %}
+
+    <div style="margin-left: 16cm;">
+
+        <table style="text-align: left;">
+            <tr><th style="text-align:center;">承　　認</ht>	<th style="text-align:center;">理　　由</th></tr>
+            <tr><td>&nbsp;1 - 営業担当者&nbsp;</td>												  								  <td>&nbsp;A - 依頼が短納期&nbsp;</td></tr>
+            <tr><td>&nbsp;2 - 所長・課長</td>													  								  <td>&nbsp;B - 営業側の事情</td></tr>
+            <tr><td>&nbsp;3 - X p o i n t</td>																					<td>&nbsp;C - 発送方法変更</td></tr>
+            <tr><td>&nbsp;4 - そ　の　他</td>	  												 								  <td>&nbsp;K - 外注　依頼品</td></tr>
+            <tr><td>&nbsp;5 - 無　　　し</td>									  <td style="background-color: rgb(240, 240, 240);">&nbsp;D - 多忙にて困難</td></tr>
+            <tr><td style="border-left: hidden; border-bottom: hidden;"></td>	<td style="background-color: rgb(240, 240, 240);">&nbsp;E - 外注先の遅延</td></tr>
+            <tr><td style="border-left: hidden; border-bottom: hidden;"></td>	<td style="background-color: rgb(240, 240, 240);">&nbsp;F - 部品入手遅延</td></tr>
+            <tr><td style="border-left: hidden; border-bottom: hidden;"></td>	<td style="background-color: rgb(240, 240, 240);">&nbsp;G - 組合日程調整</td></tr>
+            <tr><td style="border-left: hidden; border-bottom: hidden;"></td>	<td style="background-color: rgb(240, 240, 240);">&nbsp;H - そ　 の 　他</td></tr>
+            <tr><td style="border-left: hidden; border-bottom: hidden;"></td>	<td style="background-color: rgb(240, 240, 240);">&nbsp;I - 技術的な要因</td></tr>
+            <tr><td style="border-left: hidden; border-bottom: hidden;"></td>	<td style="background-color: rgb(240, 240, 240);">&nbsp;J - 設備での要因</td></tr>
+
+        </table>
+
+    </div>
+
+{% endif %}

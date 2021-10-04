@@ -1,0 +1,381 @@
+
+<!--
+///////////////////////////////////////////////////////////////////////////////
+// 納期変更の「申請内容リスト」の上の「１ライン」に表示と、入力用フィールド（コメント）
+///////////////////////////////////////////////////////////////////////////////
+-->
+
+		{% set stateCount = 1 %}
+
+	{% for id, changer in changerList %}
+<!--
+	// 対象の「申請内容リスト」があるかの確認 //
+-->
+	{% else %}
+<!--
+	// 対象の「申請内容リスト」が無い //
+-->
+		{% set stateCount = 0 %}
+
+	{% endfor %}
+
+
+
+<!--
+	// 対象の「申請内容リスト」の表示 //
+-->
+	<table>
+
+		<thead>
+
+			<tr style="left: 0px;"></tr>
+
+	{% if stateCount == 1 %}
+
+				<th class="h17title"></th>
+				<th colspan="5" style="text-align: left;" class="h17title">[c.p]をクリックし修理依頼Noをｺﾋﾟ−</th>
+
+	{% endif %}
+
+			</tr>
+
+<!--
+///////////////////////////////////////////////////////////////////////////////
+// 納期変更の「申請内容リスト」のタイトル部分
+///////////////////////////////////////////////////////////////////////////////
+-->
+			<tr style="left: 0px;">
+
+				<th style="text-align: center; border-top-style: hidden; border-bottom-style: hidden; border-left-style: hidden;">　　　</th>
+
+
+	{% if (stateMsg == 0) or (stateMsg == 6)  %}
+
+				<th>ID</th>
+				<th>SG</th>
+
+	{% endif %}
+
+
+				<th colspan="2">修理依頼 No</th>
+
+				<th>修理担当</th>
+				<th>型　式</th>
+
+				<th>現状納期</th>
+				<th>変更納期</th>
+
+				<th>回数</th>
+				<th>承認</th>
+				<th>理由</th>
+
+				<th>
+					<label style="color: rgb(255, 0, 0);">申請時のコメント</label>
+				</th>
+
+
+				<th>申請日</th>
+
+
+	{% if stateMsg >= 3 %}
+
+				<th>承認日</th>
+
+	{% endif %}
+
+
+	{% if stateMsg >= 4 %}
+
+				<th>変更日</th>
+
+	{% endif %}
+
+
+	{% if stateMsg >= 5 %}
+
+				<th>確認日</th>
+
+	{% endif %}
+
+
+				<th>処理コメント</th>
+
+
+			</tr>
+
+		</thead>
+
+<!--
+///////////////////////////////////////////////////////////////////////////////
+// 納期変更の「申請内容リスト」を罫線付きで表示
+///////////////////////////////////////////////////////////////////////////////
+-->
+		<tbody>
+
+		{% set stateCount = 0 %}
+
+	{% for id, changer in changerList %}
+
+		{% set stateCount = stateCount + 1 %}
+
+<!--
+		/////////////////////////////////
+		// 奇数の行だけ、背景をグレーにする //
+-->
+		{% if stateCount is odd %}
+
+			<tr style="left: 0px;">
+
+		{% else %}
+
+			<tr style="left: 0px; background-color: rgb(240, 240, 240);">
+
+		{% endif %}
+
+
+<!--
+		// form開始 /////////////////////
+-->
+				<form>
+
+
+<!--
+		///////////////////////////////////////////
+		// 「申請内容リスト」の左に「戻りボタン」を表示 //
+-->
+		{% if (protcMsg == 2) or (stateMsg == 1)  or (stateMsg == 2) or (stateMsg == 3) or (stateMsg == 4) %}
+			{% set disabled0 = '' %}
+		{% else %}
+			{% set disabled0 = 'disabled' %}
+		{% endif %}
+
+
+		{% if    (stateMsg == 0) or ((stateCount != 1) and ((stateMsg != 1) and (stateMsg != 6))) %}
+
+					<td class="button22">　　　　　</td>
+
+		{% elseif stateMsg == 1 %}
+
+					<td class="button22">
+						<button {{disabled0}} style="font-size: 0.9em;" class="button2" formmethod="POST" type="submit" formaction="/showChangerSet/1/0/{{id}}/{{stateCount}}">取消戻</button>
+					</td>
+
+		{% elseif stateMsg == 2 %}
+
+					<td class="button22">
+						<button {{disabled0}} style="font-size: 0.9em;" class="button2" formmethod="POST" type="submit" formaction="/showChangerSet/2/0/{{id}}/{{stateCount}}">取消戻</button>
+					</td>
+
+		{% elseif stateMsg == 3 %}
+
+					<td class="button22">									
+						<button {{disabled0}} style="font-size: 0.9em;" class="button2" formmethod="POST" type="submit" formaction="/showChangerSet/3/1/{{id}}/{{stateCount}}">承認戻</button>
+					</td>
+
+		{% elseif stateMsg == 4 %}
+
+					<td class="button22">									
+						<button {{disabled0}} style="font-size: 0.9em;" class="button2" formmethod="POST" type="submit" formaction="/showChangerSet/4/2/{{id}}/{{stateCount}}">変更戻</button>
+					</td>
+
+		{% elseif stateMsg == 5 %}
+
+					<td class="button22">									
+						<button {{disabled0}} style="font-size: 0.9em;" class="button2" formmethod="POST" type="submit" formaction="/showChangerSet/5/3/{{id}}/{{stateCount}}">確認戻</button>
+					</td>
+
+		{% elseif stateMsg == 6 %}
+
+					<td class="button22">									
+						<button {{disabled0}} style="font-size: 0.9em;" class="button2" formmethod="POST" type="submit" formaction="/showChangerSet/6/4/{{id}}/{{stateCount}}">確認戻</button>
+					</td>
+
+		{% else %}
+
+		{% endif %}
+
+
+<!--
+		// 「申請内容リスト」の内容を表示していく //
+-->
+		{% if (stateMsg == 0) or (stateMsg == 6)  %}
+
+					<td style="text-align: right;">{{id}}</td>
+					<td style="text-align: center;">{{changer.cgStat}}</td>
+
+		{% endif %}
+
+<!--
+		// 修理依頼Noの「コピー&ペースト」のための「Copy」ボタンを表示 //
+-->
+		{% set staCt = 'copyTxt' ~ stateCount %}
+
+					<td id="{{staCt}}">{{changer.cgIraiNo}}</td>
+					<td style="text-align: center; border-left-style: hidden; background-color: rgb(255, 255, 255);">
+						<button class="button5" onclick="copyClipboard('{{staCt}}', 0)">c.p</button>
+					</td>
+
+<!--
+		// ここから「申請内容リスト」の内容を表示 //
+-->
+					<td>{{changer.cgTantouName}}</td>
+					<td>{{changer.cgKatasikiName}}</td>
+
+					<td>{{changer.cgNoukimaeDate | date("Y.m.d")}}</td>
+					<td>{{changer.cgNoukiatoDate | date("Y.m.d")}}</td>
+
+					<td style="text-align: center;">{{changer.cgHenkoCount}}</td>
+					<td style="text-align: center;">{{changer.cgRiyuu1No}}</td>
+					<td style="text-align: center;">{{changer.cgRiyuu2No}}</td>
+
+					<td>{{changer.cgOkureComent}}</td>
+
+
+<!--
+		// ここから「申請内容リスト」の内容を続ける表示 //
+-->
+
+					<td>{{changer.cgShinseiStart | date("Y.m.d")}}</td>
+
+		{% if stateMsg >= 3 %}
+
+					<td>{{changer.cgSyouninDate | date("Y.m.d")}}</td>
+
+		{% endif %}
+
+
+		{% if stateMsg >= 4 %}
+
+					<td>{{changer.cgSyoriDate | date("Y.m.d")}}</td>
+
+		{% endif %}
+
+
+		{% if stateMsg >= 5 %}
+
+					<td>{{changer.cgCheckDate | date("Y.m.d")}}</td>
+
+		{% endif %}
+
+
+<!--
+		// 変更時、何かコメントを表示する //
+-->
+
+		{% if (stateMsg == 2) or (stateMsg == 3) or (stateMsg == 4) %}
+
+		{% set staCt = 'addCgKaesiComent' ~ stateCount %}
+
+				<td><label for="{{staCt}}">
+					<input type="search" id="{{staCt}}" name="{{staCt}}" size=20 value="{{changer.cgKaesiComent}}">
+				</label></td>
+
+		{% else %}
+
+				<td>{{changer.cgKaesiComent}}</td>
+
+		{% endif %}
+
+
+<!--
+		// 「申請内容リスト」の右に「送りボタン」を表示 //
+-->
+
+{% if (stateCount == 1) or (stateMsg == 0) %}
+
+		{% if     stateMsg == 0 %}
+
+			{% if protcMsg == 2 %}
+
+				{% set disabled0 = '' %}
+
+			{% else %}
+
+				{% set disabled0 = 'disabled' %}
+
+			{% endif %}
+
+					<td class="button11">
+						<button {{disabled0}} style="font-size: 0.9em;" class="button1" formmethod="POST" type="submit" formaction="/showChangerSet/0/1/{{id}}/{{stateCount}}">申　請</button>
+					</td>
+
+
+		{% elseif stateMsg == 2 %}
+
+					<td class="button11">
+						<button style="font-size: 0.9em;" class="button1" formmethod="POST" type="submit" formaction="/showChangerSet/2/2/{{id}}/{{stateCount}}">承　認</button>
+					</td>
+
+		{% elseif stateMsg == 3 %}
+
+					<td class="button11">
+						<button style="font-size: 0.9em;" class="button1" formmethod="POST" type="submit" formaction="/showChangerSet/3/3/{{id}}/{{stateCount}}">変　更</button>
+					</td>
+
+		{% elseif stateMsg == 4 %}
+
+					<td class="button11">
+						<button style="font-size: 0.9em;" class="button1" formmethod="POST" type="submit" formaction="/showChangerSet/4/4/{{id}}/{{stateCount}}">確　認</button>
+					</td>
+
+
+		{% elseif stateMsg == 5 %}
+
+					<td class="button11">
+						<button style="font-size: 0.9em;" class="button1" formmethod="POST" type="submit" formaction="/showChangerSet/5/5/{{id}}/{{stateCount}}">完　了</button>
+					</td>
+
+
+		{% else %}
+
+		{% endif %}
+
+{% endif %}
+
+<script>
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+//***************************************************************
+//　バッチファイルを起動してホップアップ画面を表示させる。
+//***************************************************************
+
+	document.getElementById("{{staCt}}").onkeypress = (e) => {
+//debugger;
+
+	// form1に入力されたキーを取得
+	const key = e.keyCode || e.charCode || 0;
+
+	// 13はEnterキーのキーコード
+		if (key == 13) {
+			// アクションを行わない
+			e.preventDefault();
+		}
+	}
+
+</script>
+
+
+<!--
+		// form終了 ///////////////////////
+-->
+				</form>
+
+			</tr>
+
+
+<!--
+		// 表示される「申請内容」がない場合の表示 //
+-->
+	{% else %}
+
+			<tr>
+				<td style="text-align: center; border-top-style: hidden; border-bottom-style: hidden; border-left-style: hidden;">　　　　　</td>
+				<td colspan="5">&nbsp;&nbsp;表示する納期変更はありません。</td>
+			</tr>
+
+	{% endfor %}
+
+		</tbody>
+
+	</table>

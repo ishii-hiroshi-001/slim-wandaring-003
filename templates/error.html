@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>Error | SocymSlimMVC</title>
+
+		<style>
+
+			table {
+				border-collapse: collapse;
+			}
+
+			th, td {
+				border: solid 1px black;
+			}
+
+			button{
+				font-size: 1.5em;
+				border-radius: 0.5em;
+				background-color: rgb(250, 247, 84);
+			}
+
+		</style>
+
+	</head>
+
+	<body>
+
+		<h1>Error</h1>
+
+		<section>
+			<h2>申し訳ございません。障害が発生しました。</h2>
+			<p>{{errorMsg}}</p>
+		</section>
+
+		<br><br>
+
+		<table  style="width: 30%;">
+
+			<tr>
+
+				<td style="border-style: hidden;">
+					<form action="/showChangerList" method="post">
+						<button type="submit">未処理全リスト</button>
+					</form>
+				</td>
+
+				<td style="border-style: hidden;">
+					<form action="/changerForKsc/1/1" method="post">
+						<button ype="submit">メニュー</button>
+					</form>
+				</td>
+
+			</tr>
+
+		</table>
+
+	</body>
+
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>納期変更のリスト | SlimWandaRingMVC</title>
+<!--
+	/////////////////////////////////////
+	// 納期変更の「スタイルシート」の記述 //
+-->
+			{{ include("changerStyle.html") }}
+
+	</head>
+
+	<body>
+
+		<header>
+<!--
+	//////////////////////////////
+	// 納期変更の「メニュー」表示 //
+-->
+			{{ include("changerMenu.html") }}
+
+<!--
+	//////////////////////////////
+	// 納期変更の「タイトル」表示 //
+-->
+			{{ include("changerTitle.html") }}
+
+		</header>
+
+		<section>
+
+		{% if msg %}
+
+			<p>{{msg}}</p>
+
+		{% else %}
+
+<!--
+	///////////////////////////////
+	// 納期変更の「申請内容リスト」//
+-->
+			{{ include("changerSList.html") }}
+
+		{% endif %}
+
+<!--
+	/////////////////////////////
+	// 「申請内容」を入力して設定//
+-->
+			{{ include("changerSinsei.html") }}
+
+			<br>
+
+<!--
+	/////////////////////////////////////
+	// フッター部の「メニューボタン」表示 //
+-->
+			{{ include("changerFooter.html") }}
+
+			<br>
+
+<!--
+	//////////////////////////////////
+	// 以下から、「JavaScrit」を書く //
+-->
+			{{ include("changerScrit.html") }}
+
+		</section>
+
+	</body>
+
+</html>

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>{{name}}</title>
+
+		<style>
+
+			.button1 {
+				font-size: 1.0em;
+				border-radius: 0.5em;
+				background-color: rgb(255, 255, 0);
+			}
+			.button1:hover {
+				color: rgb(0, 0, 0);
+				background-color: rgb(253, 192, 245);
+			}
+
+
+			.h10title {
+				font-size: 1.5em;
+				border-radius: 0.5em;
+				background-color: rgb(211, 211, 211);
+			}
+			.h10title:hover {
+				background-color: rgb(255, 255, 0);
+			}
+
+
+			.h11title {
+				font-size: 1.5em;
+				border-radius: 0.5em;
+				background-color: rgb(99, 236, 236);
+			}
+			.h11title:hover {
+				color: rgb(0, 0, 0);
+				background-color: rgb(255, 255, 0);
+			}
+
+			.h12title {
+				font-size: 1.5em;
+				border-radius: 0.5em;
+				background-color: rgb(144, 144, 247);
+			}
+			.h12title:hover {
+				color: rgb(0, 0, 0);
+				background-color: rgb(255, 255, 0);
+			}
+
+			.h13title {
+				font-size: 1.5em;
+				border-radius: 0.5em;
+				background-color: rgb(145, 248, 145);
+			}
+			.h13title:hover {
+				color: rgb(0, 0, 0);
+				background-color: rgb(255, 255, 0);
+			}
+
+			.h14title {
+				font-size: 1.5em;
+				border-radius: 0.5em;
+				background-color: rgb(250, 230, 143);
+			}
+			.h14title:hover {
+				color: rgb(0, 0, 0);
+				background-color: rgb(255, 255, 0);
+			}
+
+			.h15title {
+				font-size: 1.5em;
+				border-radius: 0.5em;
+				background-color: rgb(248, 126, 248);
+			}
+			.h15title:hover {
+				color: rgb(0, 0, 0);
+				background-color: rgb(255, 255, 0);
+			}
+
+		</style>
+
+	</head>
+
+	<body>
+
+		<h1>{{name}}</h1>
+		<h2>こんにちはー　納期チェンジャーです!</h2>
+		<h3>以下を選択して、ご使用ください。</h3>
+
+		<table style="width: 80;">
+
+			<tr>
+
+<!--
+		/////////////////////////////////
+		// プロテクト状態の時だけを抽出する //
+-->
+				{% if (protcMsg == 2) and (stateMsg == 2) %}
+					{% set disabled0 = '' %}
+					{% set disabled1 = '' %}
+					{% set disabled2 = '' %}
+					{% set disabled3 = '' %}
+					{% set disabled4 = '' %}
+					{% set disabled5 = '' %}
+					{% set disabled6 = '' %}
+				{% else %}
+					{% set disabled0 = 'disabled' %}
+					{% set disabled1 = 'disabled' %}
+					{% set disabled2 = 'disabled' %}
+					{% set disabled3 = 'disabled' %}
+					{% set disabled4 = 'disabled' %}
+					{% set disabled5 = 'disabled' %}
+					{% set disabled6 = 'disabled' %}
+				{% endif %}
+
+				{%     if stateMsg == 0 %}
+					{% set disabled0 = '' %}
+				{% elseif stateMsg == 1 %}
+					{% set disabled1 = '' %}
+				{% elseif stateMsg == 2 %}
+					{% set disabled2 = '' %}
+				{% elseif stateMsg == 3 %}
+					{% set disabled3 = '' %}
+				{% elseif stateMsg == 4 %}
+					{% set disabled4 = '' %}
+				{% elseif stateMsg == 5 %}
+					{% set disabled5 = '' %}
+				{% elseif stateMsg == 6 %}
+					{% set disabled6 = '' %}
+				{% else %}
+
+				{% endif %}
+
+<!--
+				////////////////////////////////////
+				// プロテクト状態の時だけプロテクトする //
+-->
+				<td>
+					<form action="/goChangerApp/{{protcMsg}}/0" method="post">
+						<button {{disabled0}} type="submit" class="h10title">「申請 ゴミ箱」↓</button>
+					</form>
+				</td>
+
+				<td>
+					<form action="/goChangerApp/{{protcMsg}}/1/1" method="post">
+						<button {{disabled1}} type="submit" class="h11title">「申　請」</button>
+					</form>
+				</td>
+
+				<td>
+					<form action="/goChangerApp/{{protcMsg}}/2" method="post">
+						<button {{disabled2}} type="submit" class="h12title">↑「承　認」⇒</button>
+					</form>
+				</td>
+
+				<td>
+					<form action="/goChangerApp/{{protcMsg}}/3" method="post">
+						<button {{disabled3}} type="submit" class="h13title">「変　更」⇒</button>
+					</form>
+				</td>
+
+				<td>
+					<form action="/goChangerApp/{{protcMsg}}/4" method="post">
+						<button {{disabled4}} type="submit" class="h14title">「確　認」⇒</button>
+					</form>
+				</td>
+
+				<td>
+					<form action="/goChangerApp/{{protcMsg}}/5" method="post">
+						<button {{disabled5}} type="submit" class="h15title">「完　了」⇒</button>
+					</form>
+				</td>
+
+				<td>
+					<form action="/goChangerApp/{{protcMsg}}/6" method="post">
+						<button {{disabled6}} type="submit" class="h10title">「完了 ゴミ箱」</button>
+					</form>
+				</td>
+
+<!--
+///////////////////////////////////////////////////////////////////////////////
+
+				<td>
+					<form action="/changerForKsc/1/{{stateMsg}}" method="post">
+						<button type="submit" class="button1">未　実　装</button>
+					</form>
+				</td>
+
+///////////////////////////////////////////////////////////////////////////////
+-->
+
+			</tr>
+
+		</table>
+
+	</body>
+
+</html>

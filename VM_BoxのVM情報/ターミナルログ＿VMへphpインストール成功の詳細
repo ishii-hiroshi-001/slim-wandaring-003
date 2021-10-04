@@ -1,0 +1,189 @@
+[root@localhost ~]# yum list installed | grep php
+[root@localhost ~]# yum -y install --enablerepo=remi,remi-php74 php php-devel php-mbstring php-xml php-xmlrpc php-gd php-pdo php-pecl-mcrypt php-mysqlnd php-pecl-mysql
+Error: Unknown repo: 'remi-php74'
+[root@localhost ~]# dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+Last metadata expiration check: 0:23:02 ago on Sun 14 Mar 2021 05:14:06 AM UTC.
+epel-release-latest-8.noarch.rpm                                     9.7 kB/s |  22 kB     00:02    
+Dependencies resolved.
+=====================================================================================================
+ Package                   Architecture        Version               Repository                 Size
+=====================================================================================================
+Upgrading:
+ epel-release              noarch              8-10.el8              @commandline               22 k
+
+Transaction Summary
+=====================================================================================================
+Upgrade  1 Package
+
+Total size: 22 k
+Is this ok [y/N]: y
+Downloading Packages:
+Running transaction check
+Transaction check succeeded.
+Running transaction test
+Transaction test succeeded.
+Running transaction
+  Preparing        :                                                                             1/1 
+  Running scriptlet: epel-release-8-10.el8.noarch                                                1/1 
+  Upgrading        : epel-release-8-10.el8.noarch                                                1/2 
+  Cleanup          : epel-release-8-8.el8.noarch                                                 2/2 
+  Running scriptlet: epel-release-8-8.el8.noarch                                                 2/2 
+  Verifying        : epel-release-8-10.el8.noarch                                                1/2 
+  Verifying        : epel-release-8-8.el8.noarch                                                 2/2 
+
+Upgraded:
+  epel-release-8-10.el8.noarch                                                                       
+
+Complete!
+[root@localhost ~]# dnf install https://rpms.remirepo.net/enterprise/remi-release-8.rpm
+Last metadata expiration check: 0:23:27 ago on Sun 14 Mar 2021 05:14:06 AM UTC.
+remi-release-8.rpm                                                    18 kB/s |  25 kB     00:01    
+Package remi-release-8.3-1.el8.remi.noarch is already installed.
+Dependencies resolved.
+Nothing to do.
+Complete!
+[root@localhost ~]# dnf module install php:remi-7.4
+Last metadata expiration check: 0:23:40 ago on Sun 14 Mar 2021 05:14:06 AM UTC.
+Dependencies resolved.
+The operation would result in switching of module 'php' stream '7.2' to stream 'remi-7.4'
+Error: It is not possible to switch enabled streams of a module.
+It is recommended to remove all installed content from the module, and reset the module using 'dnf module reset <module_name>' command. After you reset the module, you can install the other stream.
+[root@localhost ~]# dnf module install php:remi-7.4.11
+Last metadata expiration check: 0:24:34 ago on Sun 14 Mar 2021 05:14:06 AM UTC.
+Error: Problems in request:
+missing groups or modules: php:remi-7.4.11
+[root@localhost ~]# dnf module install php:remi-74
+Last metadata expiration check: 0:25:01 ago on Sun 14 Mar 2021 05:14:06 AM UTC.
+Error: Problems in request:
+missing groups or modules: php:remi-74
+[root@localhost ~]# dnf module install php:remi-7411
+Last metadata expiration check: 0:25:13 ago on Sun 14 Mar 2021 05:14:06 AM UTC.
+Error: Problems in request:
+missing groups or modules: php:remi-7411
+[root@localhost ~]# dnf module install php:remi-7
+Last metadata expiration check: 0:25:33 ago on Sun 14 Mar 2021 05:14:06 AM UTC.
+Error: Problems in request:
+missing groups or modules: php:remi-7
+[root@localhost ~]# dnf module install php:remi-7.5
+Last metadata expiration check: 0:25:47 ago on Sun 14 Mar 2021 05:14:06 AM UTC.
+Error: Problems in request:
+missing groups or modules: php:remi-7.5
+[root@localhost ~]# dnf module install php:remi-7.4
+Last metadata expiration check: 0:27:16 ago on Sun 14 Mar 2021 05:14:06 AM UTC.
+Dependencies resolved.
+The operation would result in switching of module 'php' stream '7.2' to stream 'remi-7.4'
+Error: It is not possible to switch enabled streams of a module.
+It is recommended to remove all installed content from the module, and reset the module using 'dnf module reset <module_name>' command. After you reset the module, you can install the other stream.
+[root@localhost ~]# dnf module reset php:remi-7.4
+Last metadata expiration check: 0:28:18 ago on Sun 14 Mar 2021 05:14:06 AM UTC.
+Only module name is required. Ignoring unneeded information in argument: 'php:remi-7.4'
+Dependencies resolved.
+=====================================================================================================
+ Package                Architecture          Version                   Repository              Size
+=====================================================================================================
+Resetting modules:
+ php                                                                                                
+
+Transaction Summary
+=====================================================================================================
+
+Is this ok [y/N]: y
+Complete!
+[root@localhost ~]# dnf module install php:remi-7.4
+Last metadata expiration check: 0:28:44 ago on Sun 14 Mar 2021 05:14:06 AM UTC.
+Dependencies resolved.
+=====================================================================================================
+ Package              Arch       Version                                      Repository        Size
+=====================================================================================================
+Installing group/module packages:
+ php-cli              x86_64     7.4.16-1.el8.remi                            remi-modular     4.6 M
+ php-common           x86_64     7.4.16-1.el8.remi                            remi-modular     1.2 M
+ php-fpm              x86_64     7.4.16-1.el8.remi                            remi-modular     1.6 M
+ php-mbstring         x86_64     7.4.16-1.el8.remi                            remi-modular     528 k
+ php-xml              x86_64     7.4.16-1.el8.remi                            remi-modular     215 k
+Installing dependencies:
+ libxslt              x86_64     1.1.32-5.el8                                 baseos           250 k
+ oniguruma5php        x86_64     6.9.6-1.el8.remi                             remi-safe        208 k
+ php-json             x86_64     7.4.16-1.el8.remi                            remi-modular      76 k
+Installing weak dependencies:
+ nginx-filesystem     noarch     1:1.14.1-9.module_el8.0.0+184+e34fea82       appstream         24 k
+Installing module profiles:
+ php/common                                                                                         
+Enabling module streams:
+ php                             remi-7.4                                                           
+
+Transaction Summary
+=====================================================================================================
+Install  9 Packages
+
+Total download size: 8.7 M
+Installed size: 42 M
+Is this ok [y/N]: y
+Downloading Packages:
+(1/9): nginx-filesystem-1.14.1-9.module_el8.0.0+184+e34fea82.noarch. 236 kB/s |  24 kB     00:00    
+(2/9): libxslt-1.1.32-5.el8.x86_64.rpm                               794 kB/s | 250 kB     00:00    
+(3/9): php-common-7.4.16-1.el8.remi.x86_64.rpm                        39 kB/s | 1.2 MB     00:31    
+(4/9): php-json-7.4.16-1.el8.remi.x86_64.rpm                          21 kB/s |  76 kB     00:03    
+(5/9): php-fpm-7.4.16-1.el8.remi.x86_64.rpm                           40 kB/s | 1.6 MB     00:41    
+(6/9): php-xml-7.4.16-1.el8.remi.x86_64.rpm                           30 kB/s | 215 kB     00:07    
+(7/9): php-mbstring-7.4.16-1.el8.remi.x86_64.rpm                      36 kB/s | 528 kB     00:14    
+(8/9): oniguruma5php-6.9.6-1.el8.remi.x86_64.rpm                      26 kB/s | 208 kB     00:07    
+(9/9): php-cli-7.4.16-1.el8.remi.x86_64.rpm                           50 kB/s | 4.6 MB     01:34    
+-----------------------------------------------------------------------------------------------------
+Total                                                                 91 kB/s | 8.7 MB     01:37     
+warning: /var/cache/dnf/remi-modular-6408ecca79e22107/packages/php-cli-7.4.16-1.el8.remi.x86_64.rpm: Header V4 RSA/SHA256 Signature, key ID 5f11735a: NOKEY
+Remi's Modular repository for Enterprise Linux 8 - x86_64            3.0 MB/s | 3.1 kB     00:00    
+Importing GPG key 0x5F11735A:
+ Userid     : "Remi's RPM repository <remi@remirepo.net>"
+ Fingerprint: 6B38 FEA7 231F 87F5 2B9C A9D8 5550 9759 5F11 735A
+ From       : /etc/pki/rpm-gpg/RPM-GPG-KEY-remi.el8
+Is this ok [y/N]: y
+Key imported successfully
+Running transaction check
+Transaction check succeeded.
+Running transaction test
+Transaction test succeeded.
+Running transaction
+  Preparing        :                                                                             1/1 
+  Installing       : php-json-7.4.16-1.el8.remi.x86_64                                           1/9 
+  Running scriptlet: php-common-7.4.16-1.el8.remi.x86_64                                         2/9 
+  Installing       : php-common-7.4.16-1.el8.remi.x86_64                                         2/9 
+  Installing       : oniguruma5php-6.9.6-1.el8.remi.x86_64                                       3/9 
+  Installing       : libxslt-1.1.32-5.el8.x86_64                                                 4/9 
+  Running scriptlet: nginx-filesystem-1:1.14.1-9.module_el8.0.0+184+e34fea82.noarch              5/9 
+  Installing       : nginx-filesystem-1:1.14.1-9.module_el8.0.0+184+e34fea82.noarch              5/9 
+  Installing       : php-fpm-7.4.16-1.el8.remi.x86_64                                            6/9 
+  Running scriptlet: php-fpm-7.4.16-1.el8.remi.x86_64                                            6/9 
+  Installing       : php-xml-7.4.16-1.el8.remi.x86_64                                            7/9 
+  Installing       : php-mbstring-7.4.16-1.el8.remi.x86_64                                       8/9 
+  Installing       : php-cli-7.4.16-1.el8.remi.x86_64                                            9/9 
+  Running scriptlet: php-cli-7.4.16-1.el8.remi.x86_64                                            9/9 
+  Running scriptlet: php-fpm-7.4.16-1.el8.remi.x86_64                                            9/9 
+  Verifying        : nginx-filesystem-1:1.14.1-9.module_el8.0.0+184+e34fea82.noarch              1/9 
+  Verifying        : libxslt-1.1.32-5.el8.x86_64                                                 2/9 
+  Verifying        : php-cli-7.4.16-1.el8.remi.x86_64                                            3/9 
+  Verifying        : php-common-7.4.16-1.el8.remi.x86_64                                         4/9 
+  Verifying        : php-fpm-7.4.16-1.el8.remi.x86_64                                            5/9 
+  Verifying        : php-json-7.4.16-1.el8.remi.x86_64                                           6/9 
+  Verifying        : php-mbstring-7.4.16-1.el8.remi.x86_64                                       7/9 
+  Verifying        : php-xml-7.4.16-1.el8.remi.x86_64                                            8/9 
+  Verifying        : oniguruma5php-6.9.6-1.el8.remi.x86_64                                       9/9 
+
+Installed:
+  libxslt-1.1.32-5.el8.x86_64                                                                        
+  nginx-filesystem-1:1.14.1-9.module_el8.0.0+184+e34fea82.noarch                                     
+  oniguruma5php-6.9.6-1.el8.remi.x86_64                                                              
+  php-cli-7.4.16-1.el8.remi.x86_64                                                                   
+  php-common-7.4.16-1.el8.remi.x86_64                                                                
+  php-fpm-7.4.16-1.el8.remi.x86_64                                                                   
+  php-json-7.4.16-1.el8.remi.x86_64                                                                  
+  php-mbstring-7.4.16-1.el8.remi.x86_64                                                              
+  php-xml-7.4.16-1.el8.remi.x86_64                                                                   
+
+Complete!
+[root@localhost ~]# php -v
+PHP 7.4.16 (cli) (built: Mar  2 2021 10:35:17) ( NTS )
+Copyright (c) The PHP Group
+Zend Engine v3.4.0, Copyright (c) Zend Technologies
+[root@localhost ~]# systemctl restart httpd.service
+[root@localhost ~]# 

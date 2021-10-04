@@ -1,0 +1,213 @@
+
+＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠
+＠＠＠＠　ＶＭをインストールするための説明　＠＠＠
+＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠
+
+
+
+****自宅ＭＡＣの場合、
+****なぜか、brew cask　が出来ないため、vagrant　をHPからダウンロードしてinstallする。
+
+****Ｗｉｎｄｏｗｓは当然、HPからダウンロードしてinstallする。
+
+****Ｌｅｎｏｖｏの場合、
+****最初にＢＩＯＳが仮想設定(Virtual)がdisabledとなっているので、enableにする。
+
+
+
+
+＜インストールした、vagrantsのバージョン確認＞　D:\Workdir\SlimWanRingVM>
+vagrant version
+
+
+
+
+
+
+
+****************************************************************
+****************************************************************
+
+＜VMを終らせる時＞　D:\Workdir\SlimWanRingVM>
+vagrant halt
+
+＜VMを削除させる時＞　D:\Workdir\SlimWanRingVM>
+vagrant destroy
+
+
+
+すでに、一度、今やっている操作をやった場合は、
+最初に、Vagrantfile の自動起動についての考慮を「コメント ＃」にしておく。
+
+
+＜最新の８.３で、定義ファイルを書きこむ＞　D:\Workdir\SlimWanRingVM>
+vagrant init bento/centos-8.3
+
+
+＜un-mountエラー時での対応、インストールのやり直しの時に必要＞　D:\Workdir\SlimWanRingVM>
+vagrant plugin uninstall vagrant-vbguest
+
+****************************************************************
+****************************************************************
+
+
+
+
+
+
+
+＜インストール＋ＵＰの開始＞　D:\Workdir\SlimWanRingVM>
+vagrant up
+
+
+
+＜説明＞　vagrantとゲストosのバージョンを合わせる為に必要　D:\Workdir\SlimWanRingVM>
+vagrant plugin install vagrant-vbguest
+　　　　　　　　　　　　　　　　　　　　　　　　　https://qiita.com/chubura/items/4166585cf3f44e33271d
+　　　　　　　　　　　　　　　　　　　　　　　　　https://qiita.com/hide4649/items/d009db2579621cffd9c1
+
+＜ＶＭ＿Ｂｏｘに SHH でログイン＞　D:\Workdir\SlimWanRingVM>
+vagrant ssh
+
+
+su -            パスワードは< vagrant >　[vagrant@localhost ~]$
+
+
+
+＜ここで、最新版にアップデート＞　[root@localhost ~]#
+yum update
+
+Is this ok [y/N]: y
+Downloading Packages:
+
+
+
+
+
+＜アパッチのインストール＞　[root@localhost ~]#
+yum install httpd
+
+Is this ok [y/N]: y
+Downloading Packages:
+
+
+
+＜アパッチの自動起動の設定＞　[root@localhost ~]#
+systemctl enable httpd.service
+
+＜アパッチの自動起動の確認＞　[root@localhost ~]#
+systemctl is-enabled httpd.service
+
+
+
+
+
+
+＜アパッチの起動ステータス＞　[root@localhost ~]#
+systemctl status httpd.service
+
+
+
+
+＜アパッチの起動＞　[root@localhost ~]#
+systemctl start httpd.service
+
+
+＜アパッチの起動ステータス＞　[root@localhost ~]#
+systemctl status httpd.service
+
+:q
+
+
+
+
+****************************************************************
+****************************************************************
+
+
+＜アパッチのリスタート＞　[root@localhost ~]#
+systemctl restart httpd.service
+
+
+****************************************************************
+****************************************************************
+
+
+
+
+
+＜ソース・ホルダー場所の表示＞　[root@localhost ~]#
+ls -la /var/www/html/
+
+
+
+
+＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠
+＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠
+
+＠＠＠　phpのインストールをする　＠＠＠
+別の＜VMでのphp成功時の概略手順＞を参照
+
+＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠
+＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠
+
+
+
+
+
+＜アパッチのリスタート＞　[root@localhost ~]#
+systemctl restart httpd.service
+
+php -v
+
+
+
+＜アパッチの定義ファイルを表示・修正＞　[root@localhost ~]#
+vi /etc/httpd/conf/httpd.conf
+
+
+＜アパッチの定義ファイルをチェク＞　[root@localhost ~]#
+apachectl configtest
+
+
+＜アパッチのリスタート＞　[root@localhost ~]#
+systemctl restart httpd.service
+
+
+
+＜アパッチの起動ステータス＞　[root@localhost ~]#
+systemctl status httpd.service
+
+:q
+
+
+
+最後に、Vagrantfile の自動起動での考慮を（# コメント）を外す。
+
+
+
+
+
+
+****************************************************************
+****************************************************************
+
+＜ログを表示する場合＞　[root@localhost ~]#
+tail -f /var/log/php-fpm/www-error.log
+
+
+「CTL」+ C で終る　　　CONTROL
+
+****************************************************************
+****************************************************************
+
+
+
+＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠
+＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠
+
+＠＠＠　＜データベース＞のインストールをする　＠＠＠
+＜データベースのインストールのための説明＞を参照
+
+＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠
+＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠

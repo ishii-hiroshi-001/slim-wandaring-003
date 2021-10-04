@@ -1,0 +1,335 @@
+
+<!--
+///////////////////////////////////////////////////////////////////////////////
+// 「JavaScrit」を記述
+///////////////////////////////////////////////////////////////////////////////
+-->
+
+{% if stateMsg == 1 %}
+
+    <script>
+
+
+	////////////////////////////////////////////////////////
+	// 引合残ファイルから「担当者」、「型式」と「回答納期」を表示
+	////////////////////////////////////////////////////////
+
+//      \\NZB00220\CSV-buf\引合残ファイル.csv
+
+    // File APIに対応しているか確認
+    if(window.File && window.FileReader && window.FileList && window.Blob) {
+
+        var file = document.getElementById('fileElem');
+
+        file.addEventListener('change', loadLocalCsv, false);
+
+    } else {
+        file.style.display = 'none';
+        result.innerHTML = 'File APIに対応したブラウザでご確認ください';
+    }
+
+//***************************************************************
+//　サーバー上のＣＳＶを用いて、依頼番号から担当者、型式、回答納期を求める。
+//***************************************************************
+
+    function loadLocalCsv(e) {
+//debugger;
+        var str1 = document.getElementById("addCgIraiNo").value;
+
+        if (iraiNoCheck(str1) == -1) {
+
+            document.location.href = '/goChangerApp/1/1/1';
+
+            return -1;
+        }
+
+        // ファイル情報を取得
+        var fileData = e.target.files[0];
+//console.log(fileData); // 取得した内容の確認用
+
+        // FileReaderオブジェクトを使ってファイル読み込み
+        var reader = new FileReader();
+
+        // ファイル読み込みに成功したときの処理
+        reader.onload = function() {
+
+            var cols = reader.result.split('\n');
+            var data = [];
+
+            for (var i = 0; i < cols.length; i++) {
+                data[i] = cols[i].split('","');
+
+                // ファイルから取得した番号と、修理依頼番号を確認
+                    //   data[i][1]   修理依頼番号　左づめ
+                var str2 = data[i][1];
+
+                // 画面から入力した番号と、修理依頼番号を確認
+
+                if (str1.substr(0, 6) == str2.substr(0, 6)) {
+
+                    //   data[i][10]  担当者　左づめ
+                    document.getElementById("addCgTantouName").value = nameConv(data[i][8]);
+
+                    //   data[i][2]   型式　　左づめ
+                    document.getElementById("addCgKatasikiName").value = katashikiConv(data[i][2]);
+
+                    //   data[i][6]   回答納期
+                    if (data[i][4].substr(0, 1) != ' ') {
+                        var str3 = data[i][4].substr(0, 4);
+                        var str4 = data[i][4].substr(4, 2);
+                        var str5 = data[i][4].substr(6, 2);
+                    } else {
+                        var str3 = '2020';
+                        var str4 = '02'
+                        var str5 = '01'
+                    }
+                    document.getElementById( "addCgNoukimaeDate" ).value = str3 + '-' + str4 + '-' + str5;
+
+                    break;
+                }
+
+                if (i >= cols.length-1) {
+
+                    document.getElementById( "addCgTantouName" ).value =   "不明です";
+                    document.getElementById( "addCgKatasikiName" ).value = "見つかりません";
+                    document.getElementById( "addCgNoukimaeDate" ).value = "2020-01-01'";
+
+                    break;
+                }
+            }
+        }
+        // ファイル読み込みを実行
+        reader.readAsText(fileData, 'Shift_JIS');
+    }
+
+        
+//***************************************************************
+//　型式名からカタカナ、空白等　余分な文字を取り除き返します。
+//***************************************************************
+
+        function iraiNoCheck(data) {
+//debugger;
+            if (data == '') {
+                return -1;
+            }
+
+            if (data.length !== 6) {
+                return -1;
+            }
+
+            var chk1Str = '0123456789';
+            var chk2Str = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+            for (var i = 0; i < data.length-1; i++) {
+
+                var chkFlg = -1;
+
+                var chkStr = data.substr( i, 1);
+
+                for (var j = 0; j < chk1Str.length; j++) {
+                    if (chkStr == chk1Str.substr( j, 1)) {
+                        var chkFlg = 0;
+                            break;
+                    }
+                }
+
+                if (chkFlg == -1) {
+                    break;
+                }
+            }
+
+            if (chkFlg == 0) {
+
+                var chkFlg = -1;
+
+                var chkStr = data.substr( 5, 1);
+
+                for (var j = 0; j < chk2Str.length; j++) {
+                    if (chkStr == chk2Str.substr( j, 1)) {
+                        var chkFlg = 0;
+                            break;
+                    }
+                }
+            }
+
+            return chkFlg;
+        }
+
+
+//***************************************************************
+//　名前の後ろの、空白、余分な文字を取り除き返します。
+//***************************************************************
+
+        function nameConv(data) {
+//debugger;
+            if (data != '') {
+
+                var kataStr = data;
+
+                var chkFlg = 0;
+                for (var i = kataStr.length; i > 0; i--) {
+
+                    if 		(kataStr.substr( i - 1, 1) == '　')  {
+                            if (chkFlg == 0) {
+                                kataStr = kataStr.substr(0, i - 1); //後ろの全角空白を消す
+                            }
+                    } else {
+                        if 	(kataStr.substr( i - 1, 1) == ' ')  {
+                            if (chkFlg == 0) {
+                                kataStr = kataStr.substr(0, i - 1); //後ろの半角空白を消す
+                            }
+                        } else {
+                                chkFlg++;
+                        }
+                    }
+                }
+            } else {
+                kataStr = '';
+            }
+            return kataStr;
+        }
+
+
+//***************************************************************
+//　型式名からカタカナ、空白等　余分な文字を取り除き返します。
+//***************************************************************
+
+        function katashikiConv(data) {
+//debugger;
+            if (data != '') {
+
+                var kataStr = data;
+                var kataStr = kataStr.substr( 0, 30);
+                var delStr = 'ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜﾝ';
+                var kataStr = kataStr.replace('　', ' '); //全角空白を、半角空白へ変換
+
+                var spaFlg = -1;
+                for (var i = 0; i < data.length; i++) {
+
+                    var chkStr = data.substr( i, 1);
+
+                    var chkFlg = -1;
+
+                    for (var j = 0; j < delStr.length; j++) {
+                        if (chkStr == delStr.substr( j, 1)) {
+                            var chkFlg = j;
+                            break;
+                        }
+                    }
+
+                    if (chkFlg != -1) {
+                        var kataStr = kataStr.replace(chkStr, ''); //文字削除
+                    } else {
+                        if (chkStr == ' ') {
+                            if (spaFlg == -1) {
+                                var kataStr = kataStr.replace(chkStr, ''); //文字削除
+                            }
+                        } else {
+                            var spaFlg = 0;
+                        }
+                    }
+                }
+
+                var chkFlg = 0;
+                for (var i = kataStr.length; i > 0; i--) {
+
+                    if (kataStr.substr( i - 1, 1) == '-')  {
+                        if (chkFlg == 0) {
+                            kataStr = kataStr.substr(0, i - 1); //最後のハイフンを消す
+                        }
+                    }
+
+                    if (kataStr.substr( i - 1, 1) == ' ')  {
+                        if (chkFlg == 0) {
+                            kataStr = kataStr.substr(0, i - 1); //後ろの半角空白を消す
+                        }
+                    } else {
+                        chkFlg++;
+                    }
+                }
+
+                var kataStr = kataStr.replace("RECAL", '');
+                var kataStr = kataStr.replace("REPAIR", '');
+                var kataStr = kataStr.replace("&", ' / ');
+            } else {
+                kataStr = '';
+            }
+            return kataStr;
+        }
+
+
+    </script>
+
+{% endif %}
+
+
+
+
+
+    <script>
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+//***************************************************************
+//　修理依頼番号をクリップボードにコピーする。
+//***************************************************************
+
+	function copyClipboard(id, fl) {
+//debugger;
+		var copyText = document.getElementById(id);
+
+		document.getSelection().selectAllChildren(copyText); // 選択する
+
+		var result = document.execCommand("copy");
+
+		if (fl == -1) {
+			document.getSelection().removeAllRanges(); // 選択範囲をクリアーする
+		}
+
+		return result
+	}
+
+
+    </script>
+
+
+
+
+
+    <script>
+
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+//***************************************************************
+//　バッチファイルを起動してホップアップ画面を表示させる。
+//***************************************************************
+
+	function batFileExec(st) {
+debugger;
+
+		var wshShll = new ActiveXObject("WScript.Shell");
+
+		if        (st == 0) {
+			var exec = wshShll.exec("cmd /c D:¥¥BAT¥¥A.BAT");
+		} else if (st == 1) {
+			var exec = wshShll.exec("cmd /c D:¥¥BAT¥¥B.BAT");
+		} else if (st == 2) {
+			var exec = wshShll.exec("cmd /c D:¥¥BAT¥¥C.BAT");
+		} else if (st == 3) {
+			var exec = wshShll.exec("cmd /c D:¥¥BAT¥¥D.BAT");
+		} else if (st == 4) {
+			var exec = wshShll.exec("cmd /c D:¥¥BAT¥¥E.BAT");
+		} else if (st == 5) {
+			var exec = wshShll.exec("cmd /c D:¥¥BAT¥¥F.BAT");
+		} else if (st == 6) {
+			var exec = wshShll.exec("cmd /c D:¥¥BAT¥¥G.BAT");
+		} else {
+
+		}
+
+	}
+
+
+
+    </script>

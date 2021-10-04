@@ -1,0 +1,260 @@
+
+<!--
+///////////////////////////////////////////////////////////////////////////////
+// 最上段に「メニューボタン」を表示
+///////////////////////////////////////////////////////////////////////////////
+-->
+
+    {% if protcMsg == 2 %}
+        {% set disabled0 = '' %}
+        {% set disabled1 = '' %}
+        {% set disabled2 = '' %}
+        {% set disabled3 = '' %}
+        {% set disabled4 = '' %}
+        {% set disabled5 = '' %}
+        {% set disabled6 = '' %}
+    {% else %}
+        {% set disabled0 = 'disabled' %}
+        {% set disabled1 = 'disabled' %}
+        {% set disabled2 = 'disabled' %}
+        {% set disabled3 = 'disabled' %}
+        {% set disabled4 = 'disabled' %}
+        {% set disabled5 = 'disabled' %}
+        {% set disabled6 = 'disabled' %}
+    {% endif %}
+
+    {%     if stateMsg == 0 %}
+    {% set disabled0 = '' %}
+    {% elseif stateMsg == 1 %}
+    {% set disabled1 = '' %}
+    {% elseif stateMsg == 2 %}
+    {% set disabled2 = '' %}
+    {% elseif stateMsg == 3 %}
+    {% set disabled3 = '' %}
+    {% elseif stateMsg == 4 %}
+    {% set disabled4 = '' %}
+    {% elseif stateMsg == 5 %}
+    {% set disabled5 = '' %}
+    {% elseif stateMsg == 6 %}
+    {% set disabled6 = '' %}
+
+    {% else %}
+
+    {% endif %}
+
+<!--
+////////////////////////////////////
+// プロテクト状態の時だけプロテクトする //
+-->
+
+    <table style="left: 0px;">
+
+        <tr>
+
+            <td style="border-style: hidden;">
+                <form action="/goChangerApp/{{protcMsg}}/0" method="post">
+                    <button {{disabled0}} type="submit" class="h20title">「申請ゴミ箱」</button>
+                </form>
+            </td>
+
+            <td style="border-style: hidden;">
+                <div>↓</div>
+            </td>
+
+            <td style="border-style: hidden;">
+                <form action="/goChangerApp/{{protcMsg}}/1/1" method="post">
+                    <button {{disabled1}} type="submit" class="h21title">「申　請」</button>
+                </form>
+            </td>
+
+            <td style="border-style: hidden;">
+                <div>⇒</div>
+            </td>
+
+            <td style="border-style: hidden;">
+                <form action="/goChangerApp/{{protcMsg}}/2" method="post">
+                    <button {{disabled2}} type="submit" class="h22title">「承　認」</button>
+                </form>
+            </td>
+
+            <td style="border-style: hidden;">
+                <div>⇒</div>
+            </td>
+
+            <td style="border-style: hidden;">
+                <form action="/goChangerApp/{{protcMsg}}/3" method="post">
+                    <button {{disabled3}} type="submit" class="h23title">「変　更」</button>
+                </form>
+            </td>
+
+            <td style="border-style: hidden;">
+                <div>⇒</div>
+            </td>
+
+            <td style="border-style: hidden;">
+                <form action="/goChangerApp/{{protcMsg}}/4" method="post">
+                    <button {{disabled4}} type="submit" class="h24title">「確　認」</button>
+                </form>
+            </td>
+
+            <td style="border-style: hidden;">
+                <div>⇒</div>
+            </td>
+
+            <td style="border-style: hidden;">
+                <form action="/goChangerApp/{{protcMsg}}/5" method="post">
+                    <button {{disabled5}} type="submit" class="h25title">「完　了」</button>
+                </form>
+            </td>
+
+            <td style="border-style: hidden;">
+                <div>→</div>
+            </td>
+
+            <td style="border-style: hidden;">
+                <form action="/goChangerApp/{{protcMsg}}/6" method="post">
+                    <button {{disabled6}} type="submit" class="h26title">「完了保管箱」</button>
+                </form>
+            </td>
+
+<!--
+//////////////////////////////////////////////////
+// 「申請内容リスト」の表示順序を、入力順か、番号順 //
+-->
+
+    {% if     (stateMsg == 1) and (dflagMsg == 2)  %}
+
+            <td style="border-style: hidden;">　　　　</td>
+
+            <td style="border-style: hidden;">
+                <form action="/goChangerApp/1/1/1" method="post">
+                    <button type="submit" class="button4">入力 順序</button>
+                </form>
+            </td>
+
+    {% elseif (stateMsg == 1) and (dflagMsg == 1) %}
+
+            <td style="border-style: hidden;">　　　　</td>
+
+            <td style="border-style: hidden;">
+                <form action="/goChangerApp/1/1/2" method="post">
+                    <button type="submit" class="button4">依頼No順</button>
+                </form>
+            </td>
+
+    {% else %}
+
+            <td style="border-style: hidden;">　　　　</td>
+
+    {% endif %}
+
+
+<!--
+//////////////////////////////////////
+// プロテクト状態=2 の時だけを抽出する //
+-->
+
+    {% if protcMsg == 1 %}
+
+        {% set disabled2 = 'disabled' %}
+
+    {% else %}
+
+        {% set disabled2 = '' %}
+
+    {% endif %}
+
+<!--
+///////////////////////////////////////
+// プロテクト状態=2 の時だけプロテクトする //
+-->
+
+    {% if     stateMsg == 0 %}
+
+            <td style="border-style: hidden;">　　　　</td>
+
+            <td style="border-style: hidden;">
+                <form action="/goChangerApp/2/2" method="post">
+                    <button {{disabled2}} type="submit" class="button0">承　認へ</button>
+                </form>
+            </td>
+
+    {% elseif stateMsg == 1 %}
+
+            <td style="border-style: hidden;">
+                <form action="/goChangerApp/2/2" method="post">
+                    <button {{disabled2}} type="submit" class="button0">承　認へ</button>
+                </form>
+            </td>
+
+    {% elseif stateMsg == 2 %}
+
+            <td style="border-style: hidden;">
+                <form action="/goChangerApp/2/0" method="post">
+                    <button {{disabled2}} type="submit" class="button2">申請ｺﾞﾐ箱へ</button>
+                </form>
+            </td>
+
+            <td style="border-style: hidden;">
+                <form action="/goChangerApp/2/3" method="post">
+                    <button {{disabled2}} type="submit" class="button0">変　更へ</button>
+                </form>
+            </td>
+
+    {% elseif stateMsg == 3 %}
+
+            <td style="border-style: hidden;">
+                <form action="/goChangerApp/2/2" method="post">
+                    <button {{disabled2}} type="submit" class="button2">承　認へ</button>
+                </form>
+            </td>
+
+            <td style="border-style: hidden;">
+                <form action="/goChangerApp/2/4" method="post">
+                    <button {{disabled2}} type="submit" class="button0">確　認へ</button>
+                </form>
+            </td>
+
+    {% elseif stateMsg == 4 %}
+
+            <td style="border-style: hidden;">
+                <form action="/goChangerApp/2/3" method="post">
+                    <button {{disabled2}} type="submit" class="button2">変　更へ</button>
+                </form>
+            </td>
+
+            <td style="border-style: hidden;">
+                <form action="/goChangerApp/2/5" method="post">
+                    <button {{disabled2}} type="submit" class="button0">完了へ</button>
+                </form>
+            </td>
+
+    {% elseif stateMsg == 5 %}
+
+            <td style="border-style: hidden;">
+                <form action="/goChangerApp/2/4" method="post">
+                    <button {{disabled2}} type="submit" class="button2">確　認へ</button>
+                </form>
+            </td>
+
+            <td style="border-style: hidden;">
+                <form action="/goChangerApp/2/6" method="post">
+                    <button {{disabled2}} type="submit" class="button0">完了保管箱へ</button>
+                </form>
+            </td>
+
+    {% elseif stateMsg == 6 %}
+
+            <td style="border-style: hidden;">
+                <form action="/goChangerApp/2/5" method="post">
+                    <button {{disabled2}} type="submit" class="button3">完了へ</button>
+                </form>
+            </td>
+
+    {% else %}
+
+    {% endif %}
+
+        </tr>
+
+    </table>

@@ -1,0 +1,35 @@
+hiroshinoMacBook-puro:src hiroshi$ composer install
+Installing dependencies from lock file (including require-dev)
+Verifying lock file contents can be installed on current platform.
+Package operations: 21 installs, 0 updates, 0 removals
+  - Installing psr/log (1.1.3): Extracting archive
+  - Installing monolog/monolog (2.2.0): Extracting archive
+  - Installing nikic/fast-route (v1.3.0): Extracting archive
+  - Installing psr/container (1.1.1): Extracting archive
+  - Installing php-di/phpdoc-reader (2.2.1): Extracting archive
+  - Installing php-di/invoker (2.3.0): Extracting archive
+  - Installing opis/closure (3.6.1): Extracting archive
+  - Installing php-di/php-di (6.3.0): Extracting archive
+  - Installing psr/http-message (1.0.1): Extracting archive
+  - Installing psr/http-server-handler (1.0.1): Extracting archive
+  - Installing psr/http-server-middleware (1.0.1): Extracting archive
+  - Installing symfony/polyfill-php80 (v1.22.1): Extracting archive
+  - Installing ralouphie/getallheaders (3.0.3): Extracting archive
+  - Installing psr/http-factory (1.0.1): Extracting archive
+  - Installing fig/http-message-util (1.1.5): Extracting archive
+  - Installing slim/psr7 (1.3.0): Extracting archive
+  - Installing symfony/polyfill-mbstring (v1.22.1): Extracting archive
+  - Installing symfony/polyfill-ctype (v1.22.1): Extracting archive
+  - Installing twig/twig (v3.3.0): Extracting archive
+  - Installing slim/slim (4.7.1): Extracting archive
+  - Installing slim/twig-view (3.2.0): Extracting archive
+Generating autoload files
+8 packages you are using are looking for funding.
+Use the `composer fund` command to find out more!
+hiroshinoMacBook-puro:src hiroshi$ composer dump-autoload
+Generating autoload files
+Generated autoload files
+hiroshinoMacBook-puro:src hiroshi$ php -v
+PHP 7.4.15 (cli) (built: Feb  5 2021 21:49:51) ( NTS )
+Copyright (c) The PHP Group
+Zend Engine v3.4.0, Copyright (c) Zend Te

@@ -1,0 +1,133 @@
+
+＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠
+＠＠＠＠　データベースのインストールのための説明　＠＠＠
+＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠
+
+
+******************************************************
+******************************************************
+
+＜ＶＭ＿Ｂｏｘの起動＞　D:\Workdir\SlimWanRingVM>
+vagrant up
+
+
+＜ＶＭ＿Ｂｏｘに SHH でログイン＞　D:\Workdir\SlimWanRingVM>
+vagrant ssh
+
+
+＜root ユーザへ＞　[vagrant@localhost ~]$
+su -     パスワードは< vagrant >である
+
+******************************************************
+******************************************************
+
+
+
+
+
+＜ＰｏｓｔｇｒｅＳＱＬの(1)インストール＞　[root@localhost ~]#
+yum install postgresql-server
+
+Is this ok [y/N]: y
+Complete!
+
+
+
+
+＜ＰｏｓｔｇｒｅＳＱＬの(2)インストール＞　[root@localhost ~]#
+yum install postgresql-contrib
+
+Is this ok [y/N]: y
+Complete!
+
+
+
+
+＜Ｐｏｓｔｇｒｅユーザへの切り替え＞　[root@localhost ~]#
+su - postgres
+
+
+
+＜データベース・クラスターの作成＞[postgres@localhost ~]$ 
+initdb --encoding=UTF-8 --locale=C --pgdata=/var/lib/pgsql/data/
+
+
+
+＜データベースへの設定＞[postgres@localhost ~]$ 
+vi /var/lib/pgsql/data/pg_hba.conf
+
+vi /var/lib/pgsql/data/postgresql.conf
+
+exit
+
+
+
+＜ＰｏｓｔｇｒｅＳＱＬのサービス登録＞[root@localhost ~]#
+systemctl start postgresql.service
+
+＜ＰｏｓｔｇｒｅＳＱＬの状態確認＞[root@localhost ~]#
+systemctl status postgresql.service
+
+
+
+＜ＰｏｓｔｇｒｅＳＱＬの自動起動＞[root@localhost ~]#
+systemctl enable postgresql.service
+
+systemctl is-enabled postgresql.service
+
+psql --version
+
+
+
+
+
+＜Ｐｏｓｔｇｒｅユーザへの切り替え＞[root@localhost ~]#
+su - postgres
+
+
+＜ユーザーの作成＞[postgres@localhost ~]$
+createuser --interactive --pwprompt slimwandaringdbusr
+
+＜パスワード＞
+hogehoge
+
+
+
+
+
+****************************************************
+****************************************************
+
+＜ユーザーの削除＞[postgres@localhost ~]$
+dropuser slimwandaringdbusr
+
+****************************************************
+****************************************************
+
+
+
+
+＜データベースの作成＞[postgres@localhost ~]$
+createdb --encoding=UTF-8 --locale=en_US.UTF-8 --template=template0 --owner=slimwandaringdbusr --username=slimwandaringdbusr slimwandaringdb
+
+
+
+****************************************************
+****************************************************
+
+＜ホストＯＳからのログイン＞[postgres@localhost ~]$
+psql -h 192.168.33.10 -p 5432 -U slimwandaringdbusr -d slimwandaringdb
+
+****************************************************
+****************************************************
+
+
+
+
+＜ＶＢＯＸからのログイン＞[postgres@localhost ~]$
+psql -U slimwandaringdbusr -d slimwandaringdb
+
+
+＜ＶＢＯＸからのログアウト＞
+\q
+

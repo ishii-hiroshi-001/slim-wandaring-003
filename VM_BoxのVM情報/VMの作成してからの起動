@@ -1,0 +1,422 @@
+
+＜まずは、ＶＭ＿Ｂｏｘの起動＞　D:\Workdir\SlimWanRingVM>
+vagrant up
+
+
+
+＜VMを終らせる時＞
+exit
+exit
+vagrant halt
+
+
+
+
+＜ＶＭ＿Ｂｏｘに SHH でログイン＞　D:\Workdir\SlimWanRingVM>
+vagrant ssh
+
+
+＜root ユーザへ＞　[vagrant@localhost ~]$
+su -            パスワードは< vagrant >
+
+
+
+**************************************************************
+これがやられてないと、以下は「su - postgres」できない。
+**************************************************************
+＜ＰｏｓｔｇｒｅＳＱＬの(1)インストール＞　[root@localhost ~]#
+yum install postgresql-server
+
+＜ＰｏｓｔｇｒｅＳＱＬの(2)インストール＞　[root@localhost ~]#
+yum install postgresql-contrib
+**************************************************************
+これがやられてないと、以下は「su - postgres」できない。
+**************************************************************
+
+
+
+＜postgres ユーザへ＞　[root@localhost ~]#
+su - postgres
+
+
+**************************************************************
+**************************************************************
+
+
+
+
+＜データベースにログイン＞[postgres@localhost ~]$
+psql -U slimwandaringdbusr -d slimwandaringdb
+
+
+
+
+＜HERKOのデータベースにログイン＞[postgres@localhost ~]$
+psql -h ec2-3-210-23-22.compute-1.amazonaws.com -p 5432 -U gqhvyvzzuywyqk -d dfifp11c0mih92
+＊このあとで、パスワードを聞いてくるので、＊
+4515dab9ceb0c097f57dd197c374eed89ad4f6290a9623c6bcbc0c3c7e839e51
+＊　をコピー＆ペーストして、ＥＮＴＥＲする　＊
+
+psql: could not connect to server: Connection timed out
+        Is the server running on host "ec2-3-210-23-22.compute-1.amazonaws.com" (3.210.23.22) and accepting
+        TCP/IP connections on port 5432?
+
+
+
+
+
+＜データベース作成＞slimwandaringdb=>
+CREATE TABLE members (
+    id SERIAL NOT NULL,
+    mb_name_last TEXT NOT NULL,
+    mb_name_first TEXT NOT NULL,
+    mb_birth DATE,
+    mb_type INTEGER NOT NULL DEFAULT 1,
+    PRIMARY KEY (id)
+);
+*******************************************
+CREATE TABLE members (
+    id SERIAL NOT NULL,
+    mb_flag INTEGER NOT NULL DEFAULT 1,
+    mb_irai_no TEXT NOT NULL,
+    mb_tantou_name TEXT NOT NULL,
+    mb_katasiki_name TEXT NOT NULL,
+    mb_noukimae_date DATE,
+    mb_noukiato_date DATE,
+    mb_riyuu1_no TEXT NOT NULL DEFAULT 1,
+    mb_riyuu2_no TEXT NOT NULL DEFAULT A,
+    mb_okure_coment TEXT NOT NULL,
+    mb_shinsei_start DATE,
+    mb_syounin_date DATE,
+    mb_syori_date DATE,
+    mb_check_date DATE,
+    PRIMARY KEY (id)
+);
+DROP TABLE members
+\q
+
+*******************************************
+
+CREATE TABLE changers (
+    id SERIAL NOT NULL,
+    cg_stat INTEGER DEFAULT 1,
+
+    cg_irai_no TEXT NOT NULL,
+    cg_tantou_name TEXT,
+    cg_katasiki_name TEXT,
+
+    cg_noukimae_date DATE,
+    cg_noukiato_date DATE,
+
+    cg_henko_count INTEGER,
+    cg_riyuu1_no TEXT,
+    cg_riyuu2_no TEXT,
+
+    cg_okure_coment TEXT,
+    cg_kaesi_coment TEXT,
+
+    cg_shinsei_start DATE,
+    cg_syounin_date DATE,
+    cg_syori_date DATE,
+    cg_check_date DATE,
+
+    PRIMARY KEY (id)
+);
+
+DROP TABLE changers;
+
+\q
+
+*******************************************
+*******************************************
+
+/* 納期チェンジャーのデータベース構造 */
+
+CREATE TABLE changers (
+    id SERIAL NOT NULL,             /* レコード番号 */
+    cg_stat INTEGER DEFAULT 1,      /* レコード有無 */
+
+    cg_irai_no TEXT NOT NULL,       /* 修理依頼番号 */
+    cg_tantou_name TEXT,            /* 作業担当者名 */
+    cg_katasiki_name TEXT,          /* 型式名 */
+
+    cg_noukimae_hflg DATE,          /* 回答納期 前 保留フラグ */
+    cg_noukimae_date DATE,          /* 回答納期 前 */
+
+    cg_noukiato_hflg DATE,          /* 回答納期 後 保留フラグ */
+    cg_noukiato_date DATE,          /* 回答納期 後 */
+
+    cg_henko_rflg INTEGER,          /* 変更回数 編集フラグ */
+    cg_henko_count INTEGER,         /* 変更回数 */
+
+    cg_riyuu1_no TEXT,              /* 営業承諾 コード */
+    cg_riyuu2_no TEXT,              /* 変更理由 コード */
+
+    cg_okure_coment TEXT,           /* 遅れコメント */
+    cg_kaesi_coment TEXT,           /* お返しコメント */
+
+    cg_shinsei_start DATE,          /* 申請日付 */
+    cg_syounin_date DATE,           /* 承認日付 */
+    cg_syori_date DATE,             /* 処理日付 */
+    cg_check_date DATE,             /* 確認日付 */
+
+    PRIMARY KEY (id)
+);
+
+DROP TABLE changers;
+
+\q
+
+
+
+*******************************************
+*******************************************
+
+
+＜テーブルの内容を確認＞slimwandaringdb=>
+\dt
+
+＜テーブルの構造を確認＞slimwandaringdb=>
+\d changrs
+
+
+＜テーブルの中身を確認＞slimwandaringdb=>
+SELECT * FROM changers;
+
+
+
+
+
+****************************************************
+****************************************************
+
+＜テーブルの、id=3を確認＞slimwandaringdb=>
+SELECT * FROM changers WHERE id = 3;
+
+
+＜テーブルから、id=3を削除＞slimwandaringdb=>
+DELETE FROM changers WHERE id = 3;
+
+
+DROP TABLE changers;
+
+****************************************************
+****************************************************
+
+
+
+＜テーブルから、全てのレコードを削除＞slimwandaringdb=>
+DELETE FROM changrs;
+
+
+****************************************************
+
+
+
+
+＜データベースからのログアウト＞slimwandaringdb=>
+\q
+
+
+exit
+
+
+＜ＰＨＰライブラリーのインストール＞　[root@localhost ~]#
+yum install php-pdo php-pgsql
+
+Is this ok [y/N]: y
+Complete!
+
+
+＜アパッチのリスタート＞　[root@localhost ~]#
+systemctl restart httpd.service
+
+
+
+
+********************************************************************
+VMでの設定では、　ttpd.conf　　最期の２行に、追加する
+********************************************************************
+
+＜アパッチの定義ファイルを表示・修正＞　[root@localhost ~]#
+vi /etc/httpd/conf/httpd.conf
+
+
+SetEnv DATABASE_URL postgres://slimwandaringdbusr:hogehoge@localhost:5432/slimwandaringdb
+SetEnv DEV_MODE true
+
+
+
+＜アパッチの定義ファイルをチェク＞　[root@localhost ~]#
+apachectl configtest
+
+
+＜アパッチのリスタート＞　[root@localhost ~]#
+systemctl restart httpd.service
+
+
+＜アパッチの起動ステータス＞　[root@localhost ~]#
+systemctl status httpd.service
+
+:q
+
+********************************************************************
+
+
+
+********************************************************************
+Herokuへの設定は以下となる
+********************************************************************
+
+SetEnv DATABASE_URL postgres://gqhvyvzzuywyqk:4515dab9ceb0c097f57dd197c374eed89ad4f6290a9623c6bcbc0c3c7e839e51@ec2-3-210-23-22.compute-1.amazonaws.com:5432/dfifp11c0mih92
+SetEnv DEV_MODE 0
+
+********************************************************************
+
+
+
+
+＜GitHubにて起動＞
+
+https://github.com/ishii-hiroshi-001/slim-wandaring-001
+
+
+
+Book_Sample_Complete-103
+
+本のサンプルが、「正常に動作」したソース環境を保存した。その―１０３
+（納期変更の開発に当たり、その直前の環境）
+
+
+
+＜HERKOにて起動＞
+
+https://dashboard.heroku.com/apps/slim-wandaring-001
+
+
+
+
+＜HERKOからにて、アプリをにて起動＞
+
+https://slim-wandaring-001.herokuapp.com/sayHello
+
+https://slim-wandaring-001.herokuapp.com/sayHelloWithTemp
+
+
+
+\\TS-WXLD93\CSV_Data
+
+
+https://slim-wandaring-001.herokuapp.com/helloForKsc/2/2
+
+
+https://slim-wandaring-001.herokuapp.com/goChangerApp/1/1/1
+
+https://slim-wandaring-001.herokuapp.com/goChangerApp/2/2
+
+
+
+
+
+
+
+「javascript 」入門
+
+https://www.javadrive.jp/javascript/
+
+
+
+HTMLとCSSだけでポップアップ表示を作成する方法を現役デザイナーが解説【初心者向け】
+https://techacademy.jp/magazine/32150
+
+
+
+************************************************
+「javascript ローカルcsvファイル 読み込み」で検索
+************************************************
+
+web ローカル側のファイル を読み込む
+https://kurage.ready.jp/jhp_g/html5/localF.html
+
+
+WPF WebView2 ローカルファイルを読み込む
+https://noitalog.tokyo/wpf-webview2-load-local-file/
+
+
+
+
+https://www.tam-tam.co.jp/tipsnote/javascript/post11736.html
+
+
+
+
+
+
+
+
+https://uxmilk.jp/11586
+
+http://keylopment.com/faq/1780/
+
+https://www.sejuku.net/blog/32532
+
+https://designsupply-web.com/media/knowledgeside/5432/
+
+https://qiita.com/coarra/items/fbd5f1771c56ddd0d708
+
+https://teratail.com/questions/328831
+
+
+
+https://qiita.com/hiroyuki-n/items/5786c8fc84eb85944681
+
+https://www.zip358.com/2018/11/13/javascript%e3%81%a7%e3%83%86%e3%82%ad%e3%82%b9%e3%83%88%e3%83%95%e3%82%a1%e3%82%a4%e3%83%ab%e3%82%84csv%e3%83%95%e3%82%a1%e3%82%a4%e3%83%ab%e3%82%92%e8%aa%ad%e3%81%bf%e8%be%bc%e3%82%80%e6%96%b9.html
+
+https://www.tam-tam.co.jp/tipsnote/javascript/post11736.html
+
+https://qiita.com/masa_masa_ra/items/983007389776123757f5
+
+
+
+
+
+<html>
+
+<head>
+
+	<script type="text/javascript">
+
+		function callVbMsg()
+		{
+			var rc = msgVb();
+
+			if(rc == 6)
+			{
+				alert("はい");
+			}
+			else
+			{
+				alert("いいえ");
+			}
+		}
+
+	</script>
+
+	<script type="text/vbscript">
+
+		Function msgVb()
+			msgVb = MsgBox("めっせーじ", 68 , "タイトル")
+		End Function
+
+	</script>
+
+</head>
+
+<body>
+
+	<input type="Button" onClick="callVbMsg();" value="JavaScriptからVBScript　のメッセージを呼ぶ" />
+
+</body>
+
+</html>
+
